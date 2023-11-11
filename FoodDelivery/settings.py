@@ -27,6 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+AUTH_USER_MODEL='Accounts.CustomUser'
 
 # Application definition
 
@@ -42,6 +43,7 @@ INSTALLED_APPS = [
 
 EXTERNAL_APPS=[
     'main',
+    'Accounts',
 ]
 
 INSTALLED_APPS+=EXTERNAL_APPS
