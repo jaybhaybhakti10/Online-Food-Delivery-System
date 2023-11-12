@@ -92,6 +92,8 @@ class Restaurant(models.Model):
     def clean(self):
         if self.start_time >= self.end_time:
             raise ValidationError("End time must be greater than start time.")
+    
+   
 
     def __str__(self):
         return self.restaurant_name
@@ -122,6 +124,10 @@ class Delivery_Agent(models.Model):
         today=datetime.date.today()
         age=today.year-self.dob.year - ((today.month,today.day)<(self.dob.month,self.dob.day))
         self.age=age
+    
+    def save(self,*args,**kwargs):
+        self.calculate_age()
+        super(Delivery_Agent,self).save(*args,**kwargs)
     
     def clean(self):
         if self.age < 18:
