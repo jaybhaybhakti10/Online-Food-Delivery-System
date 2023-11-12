@@ -5,9 +5,13 @@ from django.conf import settings
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 urlpatterns=[
-    path('',login_user,name="login_page"),
-    path('login/',login_user,name="login_page"),
-    path('register/',register_user,name="registration_page"),
+    path('',home,name="home_page"),
+    path('login-user/',login_user,name="login_customer"),
+    path('login-restaurant/',login_restaurant,name="login_restaurant"),
+    path('login-rider/',login_rider,name="login_delivery"),
+    path('register-user/',register_user,name="registration_customer"),
+    path('register-restaurant/',register_restaurant,name="registration_restaurant"),
+    path('register-rider/',register_rider,name="registration_delivery"),
     path('logout/',logout_page,name="logout_session"),
     
 ]
