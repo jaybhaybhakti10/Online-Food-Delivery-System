@@ -10,12 +10,11 @@
     <link rel="stylesheet"href="{% static 'css/login.css' %}">
     <style>
       body {
-        background-image:url("{% static 'images/food6.webp' %}");
+        background-image:url("{% static 'images/del2.jpg' %}");
         background-size: cover;
         background-repeat: no-repeat;
         background-position: center;
         margin: 0; /* This removes default body margin */
-        height: 100vh; /* Set the height of the body to 100% of the viewport height */
         opacity: 80%;
     }
   </style>
@@ -25,7 +24,7 @@
 <body>
     
     <section class="vh-100">
-        <div class="container py-5 h-100">
+        <div class="container py-5 h-100 mb-3">
           <div class="row d-flex justify-content-center align-items-center h-100">
             <div class="col col-xl-10">
               <div class="card fadeIn first" style="border-radius: 1rem;">
@@ -39,7 +38,7 @@
                     {% endif %}
                    
                   
-                    <div class="card-body p-4 p-lg-5 text-black">
+                    <div class="card-body p-4 p-lg-5 text-black mb-2">
       
                       <form method="post">
                          {% csrf_token %}

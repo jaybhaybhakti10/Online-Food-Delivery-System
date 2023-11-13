@@ -77,6 +77,8 @@ class Restaurant(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=False, blank=False)
     restaurant_name = models.CharField(max_length=100)
     GSTIN_num = models.CharField(max_length=15, unique=True, null=False, primary_key=True)
+    restaurant_image=models.ImageField(upload_to="restImages/",max_length=255,null=True,blank=True,default=None)
+
 
     # Fields to store restaurant timings
     start_time = models.TimeField()
@@ -156,6 +158,7 @@ class Menu(models.Model):
     price=models.DecimalField(max_digits=10, decimal_places=2, blank=False, null=False)
     count_per_day=models.IntegerField()
     dish_image=models.ImageField(upload_to="dishImages/",max_length=255,null=True,blank=True,default=None)
+    description=models.TextField(max_length=225,null=True,blank=True)
     
     def __str__(self):
         return self.name_of_dish

@@ -10,22 +10,30 @@
     <link rel="stylesheet"href="{% static 'css/login.css' %}">
     <style>
       body {
-        background-image:url("{% static 'images/food6.webp' %}");
+        background-image:url("{% static 'images/home2.jpg' %}");
         background-size: cover;
         background-repeat: no-repeat;
         background-position: center;
         margin: 0; /* This removes default body margin */
-        height: 100vh; /* Set the height of the body to 100% of the viewport height */
-        opacity: 80%;
+        opacity: 0.8;
     }
+    .card {
+      margin: 0; /* Remove default margin for the card */
+  }
+  
+  .card-body {
+      padding: 4rem; /* Adjust padding as needed */
+  }
+  
+  
   </style>
     
 
 </head>
 <body>
     
-    <section class="vh-100">
-        <div class="container py-5 h-100">
+    <section >
+        <div class="container py-5 ">
           <div class="row d-flex justify-content-center align-items-center h-100">
             <div class="col col-xl-10">
               <div class="card fadeIn first" style="border-radius: 1rem;">
@@ -71,6 +79,11 @@
                         <div class="form-outline mb-4">
                           <input type="text" name="name" id="form2Example17" class="form-control form-control-lg fadeIn third" placeholder="Enter Restaurant Name"/>
                         </div>
+
+                        <div class="form-outline mb-4">
+                          <label for="img">Select image:</label>
+                          <input type="file" id="img" name="image" accept="image/*">
+                          </div>
 
                         <div class="form-outline mb-4">
                           <label for="appt">Enter start time:</label>
