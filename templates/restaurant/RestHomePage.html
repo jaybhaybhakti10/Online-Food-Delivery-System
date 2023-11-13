@@ -1,0 +1,20 @@
+{% extends 'navbar/navbar-rest.html' %}
+{% block title %}restaurant.restaurant_name{% endblock title %}
+{% block Home %}
+{% url 'rest_home'%}
+{% endblock  %}
+{% block Inventory %}
+{% endblock  %}
+{% block Menu %}
+{%url 'display_menu'%}
+{% endblock  %}
+{% block myProfile %}
+{% endblock  %}
+
+{% block  content %}
+
+<div>
+    <p>Hello</p>
+{{request.user}}
+</div>
+      {% endblock  %}

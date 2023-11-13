@@ -13,6 +13,9 @@ urlpatterns=[
     path('register-restaurant/',register_restaurant,name="registration_restaurant"),
     path('register-rider/',register_rider,name="registration_delivery"),
     path('logout/',logout_page,name="logout_session"),
+    path('restaurant-home/',restaurant_home,name="rest_home"),
+    path('restaurant-menu/',restaurant_display_menu,name="display_menu"),
+    path('restaurant-add-menu/',restaurant_addTo_menu,name="add_menu"),
     
 ]
 

@@ -1,0 +1,73 @@
+{% extends 'navbar/navbar-rest.html' %}
+{% load static %}
+{% block title %}restaurant.restaurant_name{% endblock title %}
+{% block Home %}
+{% url 'rest_home'%}
+{% endblock  %}
+{% block Inventory %}
+{% endblock  %}
+{% block Menu %}
+{%url 'display_menu'%}
+{% endblock  %}
+{% block myProfile %}
+{% endblock  %}
+
+{% block content%}
+
+
+<div class="container py-5">
+    <h1 class=" m-5"> Menu of {{restaurant.restaurant_name}}</h1>
+    <hr>
+    <table class="table table-striped table-hover table-light table-bordered m-3">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Dish Image</th>
+            <th scope="col">Dish Name</th>
+            <th scope="col">About Dish</th>
+            <th scope="col">Veg/Non-Veg</th>
+            <th scope="col">Price(in Rs)</th>
+            <th scope="col">Count Of Dish(per day)</th>
+          </tr>
+        </thead>
+        <tbody>
+            {%if menu%}
+            {%for dish in menu%}
+          <tr>
+            <th >{{forloop.counter}}</th>
+            <td><img src="{% static 'media/' %}{{ dish.dish_image }}" alt="{{dish.name_of_dish}}" height=200 width=200 /></td>
+            <td>{{dish.name_of_dish}}</td>
+            <td>{{dish.description}}</td>
+            {%if dish.veg%}
+                <td><img src="{%static 'images/veg.png'%}" alt="veg" height=40 width=40 /></td>
+            {%else%}
+                <td><img src="{%static 'images/nonveg.png'%}" alt="veg" height=40 width=40 /></td>
+            {%endif%}
+            <td>{{dish.price}}</td>
+            <td>{{dish.count_per_day}}</td>
+         </tr>
+
+{% endfor %}
+            {% endif %}
+        </tbody>
+    </table>
+
+    {% if not menu %}
+        <div class="text-center">
+            <h2 style="color: grey;" class="m-3">No Menu Added</h2>
+            <p>
+                <a class="btn btn-outline-light m-3" style="font-size:40px;" href="{%url 'add_menu'%}" role="button">Add Menu</a>
+            </p>
+        </div>
+    {% endif %}
+</div>
+
+
+
+
+
+
+
+
+{%endblock%}
+

@@ -3,9 +3,10 @@ from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model,authenticate,login,logout
 from django.contrib import messages
 from main.models import *
-from django.db.models import Count
 import uuid
 from datetime import datetime
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
 
 User=get_user_model()
 
@@ -50,9 +51,12 @@ def login_restaurant(request):
                  messages.error(request, "Invalid password")
                  return redirect('/login-resatuarant')
             else :
-                 messages.success(request, "Logged in Successfully")
-                 login(request,user)
-                 return redirect("/register-restaurant/")
+                if Restaurant.objects.filter(user=user):
+                    messages.success(request, "Logged in Successfully")
+                    login(request,user)
+                    return redirect("/restaurant-home/")
+                else:
+                    messages.error(request, "User not registered as restaurant")
         else:
              messages.error(request, "Invalid email")
         
@@ -70,9 +74,12 @@ def login_rider(request):
                  messages.error(request, "Invalid password")
                  return redirect('/login-rider')
             else :
-                 messages.success(request, "Logged in Successfully")
-                 login(request,user)
-                 return redirect("/register-rider/")
+                if Delivery_Agent.objects.filter(user=user):
+                    messages.success(request, "Logged in Successfully")
+                    login(request,user)
+                    return redirect("/register-rider/")
+                else:
+                    messages.error(request, "User not registered as rider")
         else:
              messages.error(request, "Invalid email")
         
@@ -136,7 +143,10 @@ def register_restaurant(request):
         city=request.POST.get('city')
         state=request.POST.get('state')
         pincode=request.POST.get('pincode')
-        
+        try:
+            restaurant_image=request.FILES.get('image')
+        except :
+            pass
         user=User.objects.filter(email=email)
         if user.exists():
             print("user already exists")
@@ -156,6 +166,7 @@ def register_restaurant(request):
                 user=user,
                 restaurant_name=restaurant_name,
                 GSTIN_num=gstin,
+                restaurant_image=restaurant_image,
                 start_time=start_time,
                 end_time=end_time,
                 house=house,
@@ -224,4 +235,73 @@ def register_rider(request):
 
 def logout_page(request):
     logout(request)
-    return('/login/')
+    return redirect('/login-restaurant/')
+
+@login_required(login_url='/login-restaurant/')
+def restaurant_home(request):
+    if request.user is not None:
+        restaurant=Restaurant.objects.get(user=request.user)
+        context={
+            "restaurant":restaurant
+        }
+        return render(request, 'restaurant/RestHomepage.html',context)
+    else:
+        return HttpResponse("Error Occured. Please try again.")
+     
+        
+@login_required(login_url='/login-restaurant/')
+def restaurant_display_menu(request):
+    if request.user is not None:
+        restaurant=Restaurant.objects.get(user=request.user)
+        menu=Menu.objects.filter(rest_id=restaurant)
+        context={
+            "restaurant":restaurant,
+            "menu":menu,
+        }
+        return render(request,'restaurant/DisplayMenu.html',context)
+    else:
+        return HttpResponse("Error Occured. Please try again.")
+   
+    
+@login_required(login_url='/login-restaurant/')
+def restaurant_addTo_menu(request):
+    if request.user is not None:
+        if request.method=='POST':
+            veg=request.POST.get('isveg')
+            name_of_dish=request.POST.get('name')
+            description=request.POST.get('desc')
+            price=request.POST.get('price')
+            count_per_day=request.POST.get('count')
+            try:
+                dish_image=request.FILES.get('image')
+            except :
+                pass
+            
+            if veg=="on":
+                veg=True
+            else:
+                veg=False
+            
+            dish_id= "DISH" + str(uuid.uuid4().hex)[:3]
+            restaurant=Restaurant.objects.get(user=request.user)
+            dish=Menu.objects.create(
+                rest_id=restaurant,
+                dish_id=dish_id,
+                veg=veg,
+                name_of_dish=name_of_dish,
+                description=description,
+                price=price,
+                count_per_day=count_per_day,
+                dish_image=dish_image
+            )
+            dish.save()
+            messages.success(request, "Dish Added Successfully")
+            return redirect('/restaurant-menu/')
+        
+        return render(request,'restaurant/Addmenu.html')
+            
+    else:
+        return HttpResponse("Error Occured. Please try again.") 
+            
+        
+        
