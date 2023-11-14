@@ -1,0 +1,104 @@
+{% extends 'navbar/navbar-rest.html' %}
+{% load static %}
+{% block title %}restaurant.restaurant_name{% endblock title %}
+{% block Home %}
+{% url 'rest_home'%}
+{% endblock  %}
+{% block Inventory %}
+{% endblock  %}
+{% block Menu %}
+{%url 'display_menu'%}
+{% endblock  %}
+{% block myProfile %}
+{% endblock  %}
+
+{% block content%}
+
+<div class="container emp-profile mt-5 ">
+<div class="card p-4 p-lg-5" style="border-radius: 1rem;">
+    
+        <div class="row">
+            <div class="col-md-4">
+                <div style="position: relative;
+                display: inline-block;">
+                    <img src="{% static 'media/' %}{{ restaurant.restaurant_image }}" alt="Restuarant Image" style="max-width: 100%;
+                    height: auto;" name="image" />
+                    
+                </div>
+
+           
+            </div>
+            <div class="col-md-6">
+                <div class="profile-head">
+                            <h3>
+                                {{restaurant.restaurant_name}}
+                            </h3>
+                            <p class="proile-rating">RATING : <span>8/10</span></p>
+                   
+                </div>
+                <div class="col-4 ">
+                    <a href="{% url 'edit_restaurant'%}" class="btn btn-dark" role="button" aria-disabled="true">Edit Profile</a>
+                   
+   
+                </div>
+            </div>
+
+            <hr class="m-3">
+            
+        </div>
+        <div class="row">
+           
+            <div class="col-md-8">
+                <div class="tab-content profile-tab" id="myTabContent">
+                    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>GSTIN Number</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p>{{restaurant.GSTIN_num}}</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>Email</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p>{{restaurant.user.email}}</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>Contact Number</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p>{{restaurant.user.phone_number}}</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>Restaurant Timings</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p>{{restaurant.start_time}} - {{restaurant.end_time}}</p>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>Address</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p>{{restaurant.house}} {{restaurant.street_address}} {{restaurant.city}} {{restaurant.state}} {{restaurant.pin_code}}</p>
+                                    </div>
+                                </div>
+                    </div>
+                   
+                    </div>
+                </div>
+            </div>
+           
+            </div>
+         
+            </div>
+{%endblock%}
