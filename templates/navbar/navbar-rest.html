@@ -37,7 +37,8 @@
               </a>
               <ul class="dropdown-menu text-small">
                 <li><a class="dropdown-item" href="{%url 'add_menu'%}">Add New Dish</a></li>
-                <li><a class="dropdown-item" href="{% block myProfile %}{% endblock  %}">Profile</a></li>
+                <li><a class="dropdown-item" href="{% url 'rest_profile'%}">Profile</a></li>
+                <li><a class="dropdown-item" href="{% url 'rest_change_password'%}">Change Password</a></li>
                 <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item" href="{% url 'logout_session' %}">Log out</a></li>
               </ul>

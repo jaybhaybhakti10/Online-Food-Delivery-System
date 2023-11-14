@@ -106,6 +106,38 @@ class Restaurant(models.Model):
         constraints = [
             models.CheckConstraint(check=models.Q(end_time__gt=models.F('start_time')), name='end_time_gt_start_time')
         ]
+@receiver(pre_delete, sender=Restaurant)
+def delete_file_on_instance_delete(sender, instance, **kwargs):
+    # Delete the file if it exists
+    if instance.restaurant_image:
+        default_storage.delete(instance.restaurant_image.path)
+        
+# @receiver(pre_save, sender=Restaurant)
+# def delete_image_on_field_update(sender, instance,**kwargs):
+#     try:
+#         # Get the initial instance from the database
+#         old_instance = Menu.objects.get(pk=instance.pk)
+#         if old_instance.dish_image != instance.restaurant_image :
+#             # Delete the old file if it exists
+#             if old_instance.restaurant_image:
+#                 default_storage.delete(old_instance.restaurant_image.path)
+#     except ObjectDoesNotExist:
+#         pass
+@receiver(pre_save, sender=Restaurant)
+def delete_image_on_field_update(sender, instance, **kwargs):
+    try:
+        # Get the initial instance from the database
+        old_instance = Restaurant.objects.get(pk=instance.pk)
+        if old_instance.restaurant_image != instance.restaurant_image:
+            # Delete the old file if it exists
+            if old_instance.restaurant_image:
+                default_storage.delete(old_instance.restaurant_image.path)
+    except Restaurant.DoesNotExist:
+        pass
+
+
+
+
 
     
     
@@ -146,12 +178,13 @@ class Delivery_Agent(models.Model):
         ]
         ordering=('area_of_work',)   
     
+
     
 
 
 # Model for Menu
 class Menu(models.Model):
-    rest_id=models.OneToOneField(Restaurant,on_delete=models.CASCADE)
+    rest_id=models.ForeignKey(Restaurant,on_delete=models.CASCADE)
     dish_id=models.CharField(max_length=100)
     veg=models.BooleanField()
     name_of_dish=models.CharField(max_length=100)

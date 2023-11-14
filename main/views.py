@@ -304,4 +304,110 @@ def restaurant_addTo_menu(request):
         return HttpResponse("Error Occured. Please try again.") 
             
         
+@login_required(login_url='/login-restaurant/')   
+def restaurant_profile(request):
+    if request.user is not None:
+        restaurant=Restaurant.objects.get(user=request.user)
+        return render(request,'restaurant/rest-profile.html',{"restaurant":restaurant})
+    else:
+        return HttpResponse("Error Occured. Please try again.") 
+        
+@login_required(login_url='/login-restaurant/')
+def restaurant_edit_profile(request):
+    if request.user is not None:
+        restaurant=Restaurant.objects.get(user=request.user)
+        user=User.objects.get(email=request.user)
+        if request.method=="POST":
+            if request.POST.get('email'):
+                user.email=request.POST.get('email')
+                user.save()
+            if request.POST.get('phone'):
+                user.phone_number=request.POST.get('phone')
+                user.save()
+            if request.POST.get('name'):
+                restaurant.retaurant_name=request.POST.get('name')
+            if request.POST.get('stime'):
+                restaurant.start_time=request.POST.get('stime')
+            if request.POST.get('etime'):
+                restaurant.end_time=request.POST.get('etime')
+            if request.POST.get('gstin'):
+                restaurant.GSTIN_num=request.POST.get('gstin')
+            if request.POST.get('house'):
+                restaurant.house=request.POST.get('house')
+            if request.POST.get('street'):
+                restaurant.street_address=request.POST.get('street')
+            if request.POST.get('city'):
+                restaurant.city=request.POST.get('city')
+            if request.POST.get('state'):
+                restaurant.state=request.POST.get('state')
+            if request.POST.get('pincode'):
+                restaurant.pin_code=request.POST.get('pincode')
+            if request.FILES.get('image'):
+                restaurant.restaurant_image=request.FILES.get('image')
+            restaurant.save()
+            messages.success(request, "Changes made successfully")
+            return redirect('/restaurant-profile/')
+        return render(request,'restaurant/edit-restaurant.html')
+    else:
+        return HttpResponse("Error Occured.")
+    
+@login_required(login_url='/login-restaurant/')
+def restaurant_change_password(request):
+    if request.user is not None:
+        user=User.objects.get(email=request.user)
+        if request.method=="POST":
+            new=request.POST.get("new")
+            confirm=request.POST.get('confirm')
+            if new ==confirm:
+                user.set_password(new)
+                user.save()
+                return redirect('/login-restaurant/')
+            else:
+                messages.error(request, "Password do not match. Try again")
+                return redirect('/restaurant-change-password/')
+        return render(request,'restaurant/change-password.html')
+    else:
+        return HttpResponse("Error Occured.")
+    
+ 
+ 
+@login_required(login_url='/login-restaurant/')
+def restaurant_edit_dish(request,dishId):
+    if request.user is not None:
+        dish=Menu.objects.get(dish_id=dishId)   
+        if request.method=="POST":
+            if request.POST.get('isveg'):
+                veg=request.POST.get('isveg')
+                if veg=="on":
+                    veg=True
+                else:
+                    veg=False 
+                dish.veg=veg 
+            if request.POST.get('name'):
+                dish.name_of_dish=request.POST.get('name')
+            if request.POST.get('desc'):
+                dish.description=request.POST.get('desc')
+            if request.POST.get('price'):
+                dish.price=request.POST.get('price')
+            if request.POST.get('count'):
+                dish.count_per_day=request.POST.get('count')
+            try:
+                if request.POST.get('image'):
+                    dish.dish_image=request.FILES.get('image')
+            except :
+                pass
+            dish.save()
+            return redirect('/restaurant-menu/')
+        return render(request,'restaurant/edit-menu.html',{"dish":dish})
+    else:
+        return HttpResponse("Error Occured.")
+    
+@login_required(login_url='/login-restaurant/')
+def restaurant_delete_dish(request,dishId):
+    dish=Menu.objects.get(dish_id=dishId)
+    dish.delete()
+    return redirect('/restaurant-menu/')
+            
+               
+    
         
