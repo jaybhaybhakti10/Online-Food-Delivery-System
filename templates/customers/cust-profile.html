@@ -1,0 +1,106 @@
+{% extends 'navbar/navbar-users.html' %}
+{% load static %}
+{% block title %}Customer | Profile{% endblock title %}
+{% block Home %}
+{% url 'cust_home'%}
+{% endblock  %}
+{% block rateOrder %}
+{% endblock  %}
+{% block OrderHis %}
+{% endblock  %}
+{% block Cart %}
+{% endblock  %}
+
+{% block content%}
+
+<div class="container emp-profile mt-5 ">
+<div class="card p-4 p-lg-5" style="border-radius: 1rem;">
+    
+        <div class="row">
+            <div class="col-md-4">
+                <div style="position: relative;
+                display: inline-block;">
+                    <img src="{% static 'images/profile.png' %}" alt="Restuarant Image" style="max-width: 100%;
+                    height: auto;" name="image" />
+                    
+                </div>
+
+           
+            </div>
+            <div class="col-md-6">
+                <div class="profile-head">
+                            <h3>
+                                {{customer.customer_name}}
+                            </h3>
+                           
+                   
+                </div>
+                <div class="col-4 ">
+                    <a href="{%url 'cust_profile_edit'%}" class="btn btn-dark" role="button" aria-disabled="true">Edit Profile</a>
+                   
+   
+                </div>
+            </div>
+
+            <hr class="m-3">
+            
+        </div>
+        <div class="row">
+           
+            <div class="col-md-8">
+                <div class="tab-content profile-tab" id="myTabContent">
+                    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                
+                               
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>Email</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p>{{customer.user.email}}</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>Contact Number</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p>{{customer.user.phone_number}}</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>Date Of Birth</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p>{{customer.dob}}</p>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>Age</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p>{{customer.age}}</p>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>Address</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p>address diplsy</p>
+                                    </div>
+                                </div>
+                    </div>
+                   
+                    </div>
+                </div>
+            </div>
+           
+            </div>
+         
+            </div>
+{%endblock%}

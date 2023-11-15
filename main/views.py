@@ -31,7 +31,7 @@ def login_user(request):
                 if Customer.objects.filter(user=user):
                     messages.success(request, "Logged in Successfully")
                     login(request,user)
-                    return redirect("/register-user/")
+                    return redirect("/user-home/")
                 else:
                     messages.error(request, "User not registered as customer")
         else:
@@ -233,9 +233,17 @@ def register_rider(request):
             
     return render(request,'login/register-rider.html')
 
-def logout_page(request):
+def logout_restaurant(request):
     logout(request)
     return redirect('/login-restaurant/')
+
+def logout_user(request):
+    logout(request)
+    return redirect('/login-user/')
+
+def logout_rider(request):
+    logout(request)
+    return redirect('/login-rider/')
 
 @login_required(login_url='/login-restaurant/')
 def restaurant_home(request):
@@ -408,6 +416,65 @@ def restaurant_delete_dish(request,dishId):
     dish.delete()
     return redirect('/restaurant-menu/')
             
-               
+            
+ #customer 
+@login_required(login_url='/login-user/')               
+def customer_home(request):
+    if request.user is not None:
+        restaurants=Restaurant.objects.all()[0:100]
+        context={
+            "restaurants":restaurants,
+        }
+    return render(request,'customers/cust-homepage.html',context)
+
+
+@login_required(login_url='/login-user/')                 
+def customer_profile(request):
+    if request.user is not None:
+        customer=Customer.objects.get(user=request.user)
+        return render(request,'customers/cust-profile.html',{"customer":customer})
+    else:
+        return HttpResponse("Error Occured. Please try again.") 
     
-        
+
+@login_required(login_url='/login-user/')                     
+def customer_profile_edit(request):
+    if request.user is not None:
+        customer=Customer.objects.get(user=request.user)
+        user=User.objects.get(email=request.user)
+        if request.method=="POST":
+            if request.POST.get('email'):
+                user.email=request.POST.get('email')
+                user.save()
+            if request.POST.get('phone'):
+                user.phone_number=request.POST.get('phone')
+                user.save()
+            if request.POST.get('name'):
+                customer.customer_name=request.POST.get('name')
+            if request.POST.get('dob'):
+                customer.dob=request.POST.get('dob')
+            customer.save()
+            messages.success(request, "Changes made successfully")
+            return redirect('/user-profile/')
+        return render(request,'customers/cust-edit-profile.html')
+    else:
+        return HttpResponse("Error Occured.")
+    
+    
+@login_required(login_url='/login-user/')                     
+def customer_change_password(request):
+    if request.user is not None:
+        user=User.objects.get(email=request.user)
+        if request.method=="POST":
+            new=request.POST.get("new")
+            confirm=request.POST.get('confirm')
+            if new ==confirm:
+                user.set_password(new)
+                user.save()
+                return redirect('/login-user/')
+            else:
+                messages.error(request, "Password do not match. Try again")
+                return redirect('/user-change-password/')
+        return render(request,'customers/cust-change-password.html')
+    else:
+        return HttpResponse("Error Occured.")
