@@ -36,7 +36,7 @@
               <img src="{%static 'images/profile.png'%}" alt="mdo" width="50" height="50" class="rounded-circle">
             </a>
             <ul class="dropdown-menu text-small">
-              <li><a class="dropdown-item" href="#">Addresses</a></li>
+              {% comment %} <li><a class="dropdown-item" href="{% url 'cust_add_address'%}"> Add Address</a></li> {% endcomment %}
               <li><a class="dropdown-item" href="{% url 'cust_profile'%}">Profile</a></li>
               <li><a class="dropdown-item" href="{%url 'cust_change_password'%}">Change Password</a></li>
               <li><hr class="dropdown-divider"></li>
