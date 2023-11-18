@@ -1,0 +1,99 @@
+{% extends 'navbar/navbar-users.html' %}
+{% load static %}
+{% block title %}Customer | Add Address{% endblock title %}
+{% block Home %}
+{% url 'cust_home'%}
+{% endblock  %}
+{% block rateOrder %}
+{% endblock  %}
+{% block OrderHis %}
+{% endblock  %}
+{% block Cart %}
+{% endblock  %}
+
+{% block content%}
+
+<section >
+    <div class="container py-5 ">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col col-xl-10">
+          <div class="card fadeIn first" style="border-radius: 1rem;">
+            <div class="row g-0">
+                {% if messages %}
+                <div class="alert alert-light" role="alert">
+                    {% for message in messages %}
+                    {{ message }}
+                    {% endfor %}
+                  </div>
+                {% endif %}
+               
+              
+                <div class="card-body p-4 p-lg-5 text-black">
+  
+                  <form method="post" enctype='multipart/form-data'>
+                     {% csrf_token %}
+  
+                    <div class="d-flex align-items-center mb-3 pb-1">
+                      <i class="fas fa-cubes fa-2x me-3" style="color: #ff6219;"></i>
+                      <span class="h1 fw-bold mb-0">Add an Address</span>
+                    </div>
+  
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="home" id="flexRadioDefault1">
+                        <label class="form-check-label" for="flexRadioDefault1">
+                          Home
+                        </label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="work" id="flexRadioDefault2">
+                        <label class="form-check-label" for="flexRadioDefault2">
+                          Work
+                        </label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="hotel" id="flexRadioDefault2">
+                        <label class="form-check-label" for="flexRadioDefault2">
+                          Hotel
+                        </label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="other" id="flexRadioDefault2">
+                        <label class="form-check-label" for="flexRadioDefault2">
+                          Other
+                        </label>
+                      </div>
+
+                    <div class="form-outline mb-4">
+                      <input type="text" name="flat_no" id="form2Example17" class="form-control form-control-lg fadeIn third" placeholder="Enter Flat No."/>
+                    </div>
+  
+                    <div class="form-outline mb-4">
+                      <input type="text" name="street" id="form2Example17" class="form-control form-control-lg fadeIn third" placeholder="Enter Street Address"/>
+                    </div>
+
+                    <div class="form-outline mb-4">
+                      <input type="text" name="city" id="form2Example17" class="form-control form-control-lg fadeIn third" placeholder="Enter City"/>
+                    </div>
+
+                    <div class="form-outline mb-4">
+                      <input type="text" name="state" id="form2Example17" class="form-control form-control-lg fadeIn third" placeholder="Enter State"/>
+                    </div>
+
+                    <div class="form-outline mb-4">
+                      <input type="text" name="pincode" id="form2Example17" class="form-control form-control-lg fadeIn third" placeholder="Enter Pincode"/>
+                    </div>
+                
+                    
+                    <div class="pt-1 mb-4">
+                      <button class="btn btn-dark btn-lg btn-block" type="submit">Add Address</button>
+                    </div>
+  
+                  </form>
+  
+                </div>
+              </div>
+            </div>
+      </div>
+    </div>
+  </section>
+{%endblock%}

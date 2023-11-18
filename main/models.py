@@ -228,6 +228,7 @@ def delete_image_on_field_update(sender, instance,**kwargs):
 # Model for Address Book
 class Address_Book(models.Model):
     cust_id=models.ForeignKey(Customer,on_delete=models.CASCADE)
+    address_type=models.CharField(max_length=100,default=" ")
     flat_no=models.CharField(max_length=100)
     street_address=models.CharField(max_length=255)
     city=models.CharField(max_length=100)
@@ -240,5 +241,7 @@ class Address_Book(models.Model):
     class Meta:
         verbose_name="address"
         ordering=('cust_id__customer_name',)
+        unique_together=('cust_id','address_type')
+        
     
     

@@ -29,6 +29,7 @@ urlpatterns=[
     path('user-profile/',customer_profile,name="cust_profile"),
     path('user-profile-edit/',customer_profile_edit,name="cust_profile_edit"),
     path('user-change-password/',customer_change_password,name="cust_change_password"),
+    path('user-add-address/',customer_add_address,name="cust_add_address"),
     
 ]
 

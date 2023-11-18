@@ -7,6 +7,7 @@ import uuid
 from datetime import datetime
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
+from django.db.models import Q
 
 User=get_user_model()
 
@@ -422,10 +423,28 @@ def restaurant_delete_dish(request,dishId):
 def customer_home(request):
     if request.user is not None:
         restaurants=Restaurant.objects.all()[0:100]
-        context={
-            "restaurants":restaurants,
-        }
-    return render(request,'customers/cust-homepage.html',context)
+        
+        
+        if request.GET.get('search'):
+            search=request.GET.get('search')
+            rest_all=Restaurant.objects.all()
+            all_dishes=Menu.objects.all()
+            query1=rest_all.filter(
+                Q(restaurant_name__icontains=search)
+            )
+            query2=all_dishes.filter(
+                Q(name_of_dish__icontains=search)|
+                Q(description__icontains=search)     
+            )
+            restaurant_ids_query1 = query1.values_list('GSTIN_num', flat=True)
+            restaurant_ids_query2 = query2.values_list('rest_id', flat=True)
+            unique_restaurant_ids = set(restaurant_ids_query1) | set(restaurant_ids_query2)
+            restaurants = rest_all.filter(GSTIN_num__in=unique_restaurant_ids)
+            print(restaurants)
+            return redirect(f'/user-home#restaurants-to-explore')
+            
+            
+    return render(request,'customers/cust-homepage.html',{"restaurants":restaurants})
 
 
 @login_required(login_url='/login-user/')                 
@@ -478,3 +497,45 @@ def customer_change_password(request):
         return render(request,'customers/cust-change-password.html')
     else:
         return HttpResponse("Error Occured.")
+    
+
+
+@login_required(login_url='/login-user/')                     
+def customer_add_address(request):
+    if request.user is not None:
+        if request.method=="POST":
+            cust_id=Customer.objects.get(user=request.user)
+            address_type=""
+            if request.POST.get('home'):
+                address_type="Home"
+            if request.POST.get('work'):
+                address_type="Work"
+            if request.POST.get('hotel'):
+                address_type="Hotel"
+            if request.POST.get('other'):
+                address_type="Other"
+            if Address_Book.objects.filter(cust_id=cust_id,address_type=address_type):
+                messages.error(request, "Address of this type Already exists.")
+                return redirect('/user-add-address/')
+            flat_no=request.POST.get('flat_no')            
+            street_address=request.POST.get('street')            
+            city=request.POST.get('city')            
+            state=request.POST.get('state')            
+            pin_code=request.POST.get('pincode') 
+            
+            address=Address_Book.objects.create(
+                cust_id=cust_id,
+                address_type=address_type,
+                flat_no=flat_no,
+                street_address=street_address,
+                city=city,
+                state=state,
+                pin_code=pin_code
+            )
+            address.save()
+            messages.success(request, "Address added successfully")
+            return redirect('/user-profile/')
+
+        return render(request,'customers/add-address.html')   
+    else:
+        return HttpResponse("Error Occured.")        
