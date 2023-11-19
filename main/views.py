@@ -452,7 +452,12 @@ def customer_home(request):
 def customer_profile(request):
     if request.user is not None:
         customer=Customer.objects.get(user=request.user)
-        return render(request,'customers/cust-profile.html',{"customer":customer})
+        addresses=Address_Book.objects.filter(cust_id=customer.cust_id)
+        context={
+            "customer":customer,
+            "addresses":addresses,
+        }
+        return render(request,'customers/cust-profile.html',context)
     else:
         return HttpResponse("Error Occured. Please try again.") 
     
@@ -540,3 +545,65 @@ def customer_add_address(request):
         return render(request,'customers/add-address.html')   
     else:
         return HttpResponse("Error Occured.")        
+    
+
+@login_required(login_url='/login-user/')                     
+def customer_edit_address(request,type):
+    if request.user is not None:
+        customer=Customer.objects.get(user=request.user)
+        address=Address_Book.objects.get(cust_id=customer.cust_id,address_type=type)
+        if request.method=="POST":
+            if request.POST.get('flat_no'):
+                address.flat_no= request.POST.get('flat_no')
+            if request.POST.get('street'):
+                address.street_address= request.POST.get('street')
+            if request.POST.get('city'):
+                address.city= request.POST.get('city')
+            if request.POST.get('state'):
+                address.state= request.POST.get('state')
+            if request.POST.get('pincode'):
+                address.pin_code= request.POST.get('pincode')
+            address.save()
+            return redirect('/user-profile/')
+        
+        return render(request,"customers/cust-edit-address.html")
+    else:
+        return HttpResponse("Error Occured.")
+    
+@login_required(login_url='/login-user/')
+def customer_delete_address(request,type):
+    customer=Customer.objects.get(user=request.user)
+    address=Address_Book.objects.get(cust_id=customer.cust_id,address_type=type)
+    address.delete()
+    return redirect('/user-profile/')
+
+
+@login_required(login_url='/login-user/')
+def customer_view_menu(request,restId):
+    restaurant=Restaurant.objects.get(GSTIN_num=restId)
+    menu=Menu.objects.filter(rest_id=restaurant)
+    context={
+        "restaurant":restaurant,
+        "menu":menu
+    }
+    return render(request,'customers/menu-page.html',context)
+
+@login_required(login_url='/login-user/')
+def customer_view_veg(request,restId):
+    restaurant=Restaurant.objects.get(GSTIN_num=restId)
+    menu=Menu.objects.filter(rest_id=restaurant,veg=True)
+    context={
+        "restaurant":restaurant,
+        "menu":menu
+    }
+    return render(request,'customers/menu-page.html',context)
+
+@login_required(login_url='/login-user/')
+def customer_view_nonveg(request,restId):
+    restaurant=Restaurant.objects.get(GSTIN_num=restId)
+    menu=Menu.objects.filter(rest_id=restaurant,veg=False)
+    context={
+        "restaurant":restaurant,
+        "menu":menu
+    }
+    return render(request,'customers/menu-page.html',context)

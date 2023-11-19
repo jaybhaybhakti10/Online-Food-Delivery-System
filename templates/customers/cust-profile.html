@@ -86,14 +86,36 @@
                                     </div>
                                 </div>
 
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <label>Address</label>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <p>address diplsy</p>
-                                    </div>
-                                </div>
+                                 
+                                   
+                                    {% if addresses %}
+    {% for address in addresses %}
+        <div class="row">
+            <div class="col-md-6">
+                <label>Address {{ forloop.counter }}</label>
+            </div>
+            <div class="col-md-6">
+                <h6>{{ address.address_type }}</h6>
+                <p>{{ address.flat_no }} {{ address.street_address }} {{ address.city }} {{ address.state }} {{ address.pin_code }}</p>
+                <a href="{%url 'cust_edit_address' address.address_type%}" class="btn btn-outline-success" role="button" aria-disabled="true">Edit Address</a>
+                <a href="{%url 'cust_delete_address' address.address_type%}" class="btn btn-outline-danger" role="button" aria-disabled="true">Delete Address</a>
+                <hr/>
+            </div>
+        </div>
+    {% endfor %}
+{% else %}
+    <div class="row">
+        <div class="col-md-6">
+            <label>Address</label>
+        </div>
+        <div class="col-md-6">
+            <p>No Address to Show</p>
+        </div>
+    </div>
+{% endif %}
+
+
+                                </div> 
                     </div>
                    
                     </div>
@@ -101,8 +123,9 @@
             </div>
            
             </div>
-            <div class="col-4 ">
+            <div class="col-4 center">
                 <a href="{%url 'cust_add_address'%}" class="btn btn-light btn-lg m-3" role="button" aria-disabled="true">Add Address</a>
+            </div>
             </div>
             </div>
             

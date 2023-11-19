@@ -30,6 +30,11 @@ urlpatterns=[
     path('user-profile-edit/',customer_profile_edit,name="cust_profile_edit"),
     path('user-change-password/',customer_change_password,name="cust_change_password"),
     path('user-add-address/',customer_add_address,name="cust_add_address"),
+    path('user-edit-address/<str:type>/',customer_edit_address,name="cust_edit_address"),
+    path('user-delete-address/<str:type>/',customer_delete_address,name="cust_delete_address"),
+    path('user-view-menu/<str:restId>/',customer_view_menu,name="cust_view_menu"),
+    path('user-view-veg/<str:restId>/',customer_view_veg,name="cust_view_veg"),
+    path('user-view-nonveg/<str:restId>/',customer_view_nonveg,name="cust_view_non_veg"),
     
 ]
 

@@ -167,7 +167,7 @@
                           {% comment %} <p class="card-text">{{restaurant.description}}</p> {% endcomment %}
                           <div class="d-flex justify-content-between align-items-center">
                             <div class="btn-group text-center">
-                                <a class="btn btn-dark m-3" style="font-size:40px;" href="#" role="button">View Menu</a>
+                                <a class="btn btn-dark m-3" style="font-size:40px;" href="{%url 'cust_view_menu' restaurant.GSTIN_num%}" role="button">View Menu</a>
                             </div>
                           </div>
                         </div>

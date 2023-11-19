@@ -1,0 +1,70 @@
+{% extends 'navbar/navbar-users.html' %}
+{% load static %}
+{% block title %}Customer | Menu{% endblock title %}
+{% block Home %}
+{% url 'cust_home'%}
+{% endblock  %}
+{% block rateOrder %}
+{% endblock  %}
+{% block OrderHis %}
+{% endblock  %}
+{% block Cart %}
+{% endblock  %}
+
+{% block content%}
+<div class="container py-5">
+    <h1 class=" m-5"> Menu of {{restaurant.restaurant_name}}</h1>
+    <hr>
+    <div>
+    <a href="{%url 'cust_view_veg' restaurant.GSTIN_num%}" class="btn btn-outline-success" role="button" aria-disabled="true">Veg</a>
+    <a href="{%url 'cust_view_non_veg' restaurant.GSTIN_num%}" class="btn btn-outline-danger" role="button" aria-disabled="true">Non-Veg</a>
+    <a href="{%url 'cust_view_menu' restaurant.GSTIN_num%}" class="btn btn-outline-light" role="button" aria-disabled="true">Both</a>
+    </div>
+    <table class="table table-striped table-hover table-light table-bordered m-3">
+        <thead>
+          <tr>
+            <th scope="col">Dish Image</th>
+            <th scope="col">Dish Name</th>
+            <th scope="col">About Dish</th>
+            <th scope="col">Veg/Non-Veg</th>
+            <th scope="col">Price(in Rs)</th>
+            <th scope="col-4">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+            {%if menu%}
+            {%for dish in menu%}
+          <tr>
+            <td><img src="{% static 'media/' %}{{ dish.dish_image }}" alt="{{dish.name_of_dish}}" height=200 width=200 /></td>
+            <td>{{dish.name_of_dish}}</td>
+            <td>{{dish.description}}</td>
+            {%if dish.veg%}
+                <td><img src="{%static 'images/veg.png'%}" alt="veg" height=40 width=40 class="mx-auto" /></td>
+            {%else%}
+                <td><img src="{%static 'images/nonveg.png'%}" alt="veg" height=40 width=40 /></td>
+            {%endif%}
+            <td>{{dish.price}}</td>
+            <td><a href="{%url 'add_to_cart' dish.dish_id restaurant.GSTIN_num%}" class="btn btn-outline-success" role="button" aria-disabled="true">Add To Cart</a>
+        </td>
+         </tr>
+
+{% endfor %}
+            {% endif %}
+        </tbody>
+    </table>
+
+    {% if not menu %}
+        <div class="text-center">
+            <h2 style="color: grey;" class="m-3">Sorry.No dish is available right now.</h2>
+        </div>
+    {% endif %}
+</div>
+
+
+
+
+
+
+
+
+{%endblock%}
