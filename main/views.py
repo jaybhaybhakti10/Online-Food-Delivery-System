@@ -6,7 +6,7 @@ from main.models import *
 import uuid
 from datetime import datetime
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
+from django.http import HttpResponse,HttpResponseRedirect
 from django.db.models import Q
 
 User=get_user_model()
@@ -441,7 +441,8 @@ def customer_home(request):
             unique_restaurant_ids = set(restaurant_ids_query1) | set(restaurant_ids_query2)
             restaurants = rest_all.filter(GSTIN_num__in=unique_restaurant_ids)
             print(restaurants)
-            return redirect(f'/user-home#restaurants-to-explore')
+            # return redirect('/user-home#restaurants-to-explore')
+            # return HttpResponseRedirect('/user-home#restaurants-to-explore', {"restaurants":restaurants})
             
             
     return render(request,'customers/cust-homepage.html',{"restaurants":restaurants})
