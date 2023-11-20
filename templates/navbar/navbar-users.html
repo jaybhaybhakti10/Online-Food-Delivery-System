@@ -24,7 +24,7 @@
             <li><a href="{% block Home %}{%endblock%}" class="nav-link px-3 secondary header text-styles">Home</a></li>
             <li><a href="{% block RateOrder %}{% endblock  %}" class="nav-link px-3 body-emphasis header text-styles">Rate Order</a></li>
             <li><a href="{% block OrderHis %}{% endblock  %}" class="nav-link px-3 header text-styles">Order History</a></li>
-            <li><a href="{% block Cart %}{% endblock  %}" class="font-weight-bold nav-link px-3 header text-styles">View Cart</a></li>
+            <li><a href="{% url 'view_cart'  %}" class="font-weight-bold nav-link px-3 header text-styles">View Cart</a></li>
           </ul>
   
           <!-- <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">

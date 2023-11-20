@@ -49,6 +49,12 @@ def customer_add_to_cart(request,dish_id,rest_id):
 def customer_view_cart(request):
     cust_id=Customer.objects.get(user=request.user).cust_id
     cart_user=Cart.objects.filter(cust_id=cust_id)
-    print(cart_user[0].item)
+    sub_total=0
+    total=0
+    for item in cart_user:
+        sub_total+=item.amount
+    gst=0.18*float(sub_total)
+    delivery_fee=80
+    total=gst + float(sub_total)+delivery_fee
     
-    return render(request,'customers/cart.html',{"cart":cart_user})
+    return render(request,'customers/cart.html',{"cart":cart_user,"sub_total":sub_total,"delivery_fee":delivery_fee,"gst":gst,"total":total})
