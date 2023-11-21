@@ -20,12 +20,15 @@
     color: bisque;
 }
 
+html, body {
+    height: 100%;
+    margin: 0;
+}
 body {
-    background-image: url('/static/images/4.avif');
+    background-image: url(/static/images/four.avif);   
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    margin: 0; /* This removes default body margin */
-    height:100vh;
+    height:100%;
     color:whitesmoke
 }

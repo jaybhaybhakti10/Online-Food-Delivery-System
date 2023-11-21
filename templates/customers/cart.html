@@ -7,13 +7,14 @@
 {% block rateOrder %}
 {% endblock  %}
 {% block OrderHis %}
+{%url 'view_order'%}
 {% endblock  %}
 
 
 {% block content%}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/5.3.45/css/materialdesignicons.css" integrity="sha256-NAxhqDvtY0l4xn+YVa6WjAcmd94NNfttjNsDmNatFVc=" crossorigin="anonymous" />
 <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-
+{{cart.0.id}}
 <div class="container">
     <div class="m-5">
         <h2> My Cart</h2>
@@ -34,7 +35,7 @@
                         <div class="flex-shrink-0 ms-2">
                             <ul class="list-inline mb-0 font-size-16">
                                 <li class="list-inline-item">
-                                    <a href="#" class="text-muted px-1">
+                                    <a href="{% url 'delete_from_cart' dish.id%}" class="text-muted px-1">
                                         <i class="mdi mdi-trash-can-outline"></i>
                                     </a>
                                 </li>
@@ -79,7 +80,7 @@
             <!-- end card -->
 
             <!-- end card -->
-
+            {%if cart%}
             <div class="row my-4">
                 <div class="col-sm-6" style="color:whitesmoke;">
                     <a href="{%url 'cust_view_menu' cart.0.item.rest_id.GSTIN_num%}
@@ -88,7 +89,7 @@
                 </div> <!-- end col -->
                 <div class="col-sm-6">
                     <div class="text-sm-end mt-2 mt-sm-0">
-                        <a href="#" class="btn btn-success">
+                        <a href="{% url 'place_order'%}" class="btn btn-success">
                             <i class="mdi mdi-cart-outline me-1"></i> Order Now </a>
                     </div>
                 </div> <!-- end col -->
@@ -97,7 +98,7 @@
 
         <div class="col-xl-4">
             <div class="mt-5 mt-lg-0">
-                <div class="card border shadow-none">
+                <div class="card border shadow-none" style="width:fit-content;">
                     <div class="card-header bg-transparent border-bottom py-3 px-4">
                         <h5 class="font-size-16 mb-0">Bill Details</h5>
                     </div>
@@ -130,6 +131,15 @@
                             </table>
                         </div>
                         <!-- end table-responsive -->
+                        {%else%}
+                        <div class="m-5 text-center">
+                            <h5> Nothing in cart</h5>
+                            <div class="text-sm-end mt-2 mt-sm-0">
+                                <a href="{% url 'cust_home'%}" class="btn btn-light m-3">
+                                    View Restaurants to Order </a>
+                            </div>
+                        </div>
+                        {%endif%}
                     </div>
                 </div>
             </div>

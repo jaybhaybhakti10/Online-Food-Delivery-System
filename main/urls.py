@@ -24,6 +24,7 @@ urlpatterns=[
     path('restaurant-change-password/',restaurant_change_password,name="rest_change_password"),
     path('edit-dish/<str:dishId>/',restaurant_edit_dish,name="edit_dish"),
     path('delete-dish/<str:dishId>/',restaurant_delete_dish,name="delete_dish"),
+    path('order-history/',restaurant_order_history,name="order_history"),
     # customer urls
     path('user-home/',customer_home,name="cust_home"),
     path('user-profile/',customer_profile,name="cust_profile"),

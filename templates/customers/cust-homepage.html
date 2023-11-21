@@ -38,9 +38,9 @@
               <img src="{% static 'images/logo.png'%}" alt="Go to Landing Page" class="img-size">
     
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-              <li><a href="#" class="nav-link px-3 secondary header text-styles">Home</a></li>
+              <li><a href="{%url 'cust_home'%}" class="nav-link px-3 secondary header text-styles">Home</a></li>
               <li><a href="{% block RateOrder %}{% endblock  %}" class="nav-link px-3 body-emphasis header text-styles">Rate Order</a></li>
-              <li><a href="{% block OrderHis %}{% endblock  %}" class="nav-link px-3 header text-styles">Order History</a></li>
+              <li><a href="{% url 'view_order'%}" class="nav-link px-3 header text-styles">Order History</a></li>
               <li><a href="{% url 'view_cart'  %}" class="font-weight-bold nav-link px-3 header text-styles">View Cart</a></li>
             </ul>
     
@@ -75,13 +75,13 @@
                     </div>
                     <div class="carousel-inner">
                       <div class="carousel-item active height-item">
-                           
-                        <img src="{%static 'images/home1.jpg'%}" width=100% height=100%/>
+                        
+                        <img src="{%static 'images/chinese.avif'%}" width=100% height=100%/>
                         <div class="carousel-caption text-top">
                          <form class="col-12 col-lg-auto m-3 mb-lg-0 me-lg-3 search-bar" role="search">
                           
                           <div class="input-group">
-                            <input type="search" class="form-control rounded" placeholder="Search Restaurant/Dish" aria-label="Search" aria-describedby="search-addon" name="search"/>
+                            <input type="search" class="form-control rounded" placeholder="Search Restaurant/Dish/Location" aria-label="Search" aria-describedby="search-addon" name="search"/>
                             <a href="#restaurants-to-explore">
                               <button type="button" class="btn btn-dark">search</button>
                               </a>
@@ -95,12 +95,12 @@
                           </div>
                       </div>
                       <div class="carousel-item height-item">
-                        <img src="{%static 'images/chinese.avif'%}" width=100% height=100%/>
+                        <img src="{%static 'images/cake.jpg'%}" width=100% height=100%/>
                         <div class="carousel-caption text-top">
                             <form class="col-12 col-lg-auto m-3 mb-lg-0 me-lg-3 search-bar" role="search">
                               
                               <div class="input-group">
-                                <input type="search" class="form-control rounded" placeholder="Search Restaurant/Dish" aria-label="Search" aria-describedby="search-addon" name="search"/>
+                                <input type="search" class="form-control rounded" placeholder="Search Restaurant/Dish/Location" aria-label="Search" aria-describedby="search-addon" name="search"/>
                                 <a href="#restaurants-to-explore">
                                   <button type="button" class="btn btn-dark">search</button>
                                   </a>
@@ -115,12 +115,12 @@
                         </div>
                       </div>
                       <div class="carousel-item height-item">
-                        <img src="{%static 'images/cake.jpg'%}" width=100% height=100%/>
+                        <img src="{%static 'images/home1.jpg'%}" width=100% height=100%/>
                         <div class="carousel-caption text-top">
                             <form class="col-12 col-lg-auto m-3 mb-lg-0 me-lg-3 search-bar" role="search">
                             
                                <div class="input-group">
-                                <input type="search" class="form-control rounded" placeholder="Search Restaurant/Dish" aria-label="Search" aria-describedby="search-addon" name="search"/>
+                                <input type="search" class="form-control rounded" placeholder="Search Restaurant/Dish/Location" aria-label="Search" aria-describedby="search-addon" name="search"/>
                                 <a href="#restaurants-to-explore">
                                 <button type="button" class="btn btn-dark">search</button>
                                 </a>

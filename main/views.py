@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model,authenticate,login,logout
 from django.contrib import messages
 from main.models import *
+from order.models import *
 import uuid
 from datetime import datetime
 from django.contrib.auth.decorators import login_required
@@ -50,7 +51,7 @@ def login_restaurant(request):
             
             if user is None:
                  messages.error(request, "Invalid password")
-                 return redirect('/login-resatuarant')
+                 return redirect('/login-restaurant')
             else :
                 if Restaurant.objects.filter(user=user):
                     messages.success(request, "Logged in Successfully")
@@ -246,14 +247,32 @@ def logout_rider(request):
     logout(request)
     return redirect('/login-rider/')
 
+# ***************RESTAURANT****************
 @login_required(login_url='/login-restaurant/')
 def restaurant_home(request):
     if request.user is not None:
         restaurant=Restaurant.objects.get(user=request.user)
+        order_received=Order.objects.filter(rest_id=restaurant.GSTIN_num,status_of_delivery="ORDERED")
         context={
-            "restaurant":restaurant
+            "restaurant":restaurant,
+            "order_received":order_received,
         }
         return render(request, 'restaurant/RestHomepage.html',context)
+    else:
+        return HttpResponse("Error Occured. Please try again.")
+    
+@login_required(login_url='/login-restaurant/')
+def restaurant_order_history(request):
+    if request.user is not None:
+        restaurant=Restaurant.objects.get(user=request.user)
+        order_received=Order.objects.filter(rest_id=restaurant.GSTIN_num,status_of_delivery="DELIVERED")
+        payment = Payment.objects.filter(order_id__in=order_received.values_list('order_id', flat=True))
+        context={
+            "restaurant":restaurant,
+            "order_received":order_received,
+            "payment":payment,
+        }
+        return render(request, 'restaurant/past-orders.html',context)
     else:
         return HttpResponse("Error Occured. Please try again.")
      
@@ -430,7 +449,10 @@ def customer_home(request):
             rest_all=Restaurant.objects.all()
             all_dishes=Menu.objects.all()
             query1=rest_all.filter(
-                Q(restaurant_name__icontains=search)
+                Q(restaurant_name__icontains=search) |
+                Q(street_address__icontains=search)|
+                Q(city__icontains=search)|
+                Q(state__icontains=search)
             )
             query2=all_dishes.filter(
                 Q(name_of_dish__icontains=search)|
