@@ -1,0 +1,36 @@
+.img-size{
+    height: 60px;
+    width:60px;
+}
+
+.header{
+    background-color: black;
+    color:whitesmoke;
+}
+
+.text-styles{
+    font-weight: 500;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 30px;
+}
+
+.color{
+    background-color: blanchedalmond;
+    color: bisque;
+}
+
+
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    background-image: url('/static/images/del1.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    color: whitesmoke;
+    height: 100%; /* Set height to 100% of the viewport height */
+}

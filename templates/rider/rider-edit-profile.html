@@ -1,0 +1,75 @@
+{% extends 'navbar/navbar-rider.html' %}
+{% block title %}rider.rider_name{% endblock title %}
+{% block Home %}
+{% url 'rider_home'%}
+{% endblock  %}
+{% load static %}
+
+{% block content%}
+
+<section >
+    <div class="container py-5 ">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col col-xl-10">
+          <div class="card fadeIn first" style="border-radius: 1rem;">
+            <div class="row g-0">
+                {% if messages %}
+                <div class="alert alert-light" role="alert">
+                    {% for message in messages %}
+                    {{ message }}
+                    {% endfor %}
+                  </div>
+                {% endif %}
+               
+              
+                <div class="card-body p-4 p-lg-5 text-black">
+  
+                  <form method="post" enctype='multipart/form-data'>
+                     {% csrf_token %}
+  
+                    <div class="d-flex align-items-center mb-3 pb-1">
+                      <i class="fas fa-cubes fa-2x me-3" style="color: #ff6219;"></i>
+                      <span class="h1 fw-bold mb-0">Edit Fields You want to Change</span>
+                    </div>
+  
+  
+                    <div class="form-outline mb-4">
+                      <input type="email" name="email" id="form2Example17" class="form-control form-control-lg fadeIn second" placeholder="Enter Email"/>
+                      
+                    </div>
+
+                    <div class="form-outline mb-4">
+                      <input type="text" name="phone" id="form2Example17" class="form-control form-control-lg fadeIn third" placeholder="Enter Phone number"/>
+                    </div>
+  
+
+                    <div class="form-outline mb-4">
+                      <input type="text" name="name" id="form2Example17" class="form-control form-control-lg fadeIn third" placeholder="Enter Your Name"/>
+                    </div>
+                
+                    <div class="form-outline mb-4">
+                        <label for="dob">Enter date of Birth : </label>
+                        <input type="date" name="date" id="dob" class="form-control form-control-lg fadeIn third" />
+                      </div>
+
+                      <div class="form-outline mb-4">
+                        <input type="text" name="license" id="form2Example17" class="form-control form-control-lg fadeIn third" placeholder="Enter License Number"/>
+                      </div>
+
+                      <div class="form-outline mb-4">
+                        <input type="text" name="area" id="form2Example17" class="form-control form-control-lg fadeIn third" placeholder="Enter City You Want to Work In "/>
+                      </div>
+                    
+                    <div class="pt-1 mb-4">
+                      <button class="btn btn-dark btn-lg btn-block" type="submit">Make Changes</button>
+                    </div>
+  
+                  </form>
+  
+                </div>
+              </div>
+            </div>
+      </div>
+    </div>
+  </section>
+{%endblock%}
