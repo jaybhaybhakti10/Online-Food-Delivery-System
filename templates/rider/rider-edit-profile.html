@@ -1,15 +1,9 @@
-{% extends 'navbar/navbar-users.html' %}
-{% load static %}
-{% block title %}Customer | Profile{% endblock title %}
+{% extends 'navbar/navbar-rider.html' %}
+{% block title %}rider.rider_name{% endblock title %}
 {% block Home %}
-{% url 'cust_home'%}
+{% url 'rider_home'%}
 {% endblock  %}
-{% block rateOrder %}
-{% endblock  %}
-{% block OrderHis %}
-{%url 'view_order'%}
-{% endblock  %}
-
+{% load static %}
 
 {% block content%}
 
@@ -56,6 +50,14 @@
                     <div class="form-outline mb-4">
                         <label for="dob">Enter date of Birth : </label>
                         <input type="date" name="date" id="dob" class="form-control form-control-lg fadeIn third" />
+                      </div>
+
+                      <div class="form-outline mb-4">
+                        <input type="text" name="license" id="form2Example17" class="form-control form-control-lg fadeIn third" placeholder="Enter License Number"/>
+                      </div>
+
+                      <div class="form-outline mb-4">
+                        <input type="text" name="area" id="form2Example17" class="form-control form-control-lg fadeIn third" placeholder="Enter City You Want to Work In "/>
                       </div>
                     
                     <div class="pt-1 mb-4">

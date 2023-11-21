@@ -8,6 +8,7 @@ class Cart(models.Model):
     cust_id=models.ForeignKey(Customer,on_delete=models.CASCADE)
     item_count=models.IntegerField()
     amount=models.DecimalField(max_digits=10, decimal_places=2, blank=False, null=False,default=0.00)
+    status=models.CharField(max_length=100,default="IN_CART")
     def __str__(self):
         return self.cust_id.customer_name
     
@@ -19,9 +20,9 @@ class Cart(models.Model):
 class Order(models.Model):
     order_id=models.CharField(max_length=100,primary_key=True)
     rest_id=models.ForeignKey(Restaurant,on_delete=models.CASCADE)
-    cust_id=models.ForeignKey(Customer,on_delete=models.CASCADE)
-    rider_id=models.OneToOneField(Delivery_Agent,on_delete=models.SET_NULL,blank=True,null=True)
-    cart_item=models.ForeignKey(Cart,on_delete=models.SET_NULL,null=True)
+    cust_id=models.ForeignKey(Customer,on_delete=models.SET_NULL,null=True)
+    rider_id=models.ForeignKey(Delivery_Agent,on_delete=models.SET_NULL,blank=True,null=True)
+    cart_item=models.ManyToManyField(Cart)
     address_of_delivery=models.ForeignKey(Address_Book,on_delete=models.CASCADE)
     total_amount=models.DecimalField(max_digits=10, decimal_places=2, blank=False, null=False)
     status_of_delivery=models.CharField(max_length=100,null=False,blank=False)

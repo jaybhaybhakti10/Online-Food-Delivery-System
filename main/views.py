@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model,authenticate,login,logout
 from django.contrib import messages
 from main.models import *
+from order.models import *
 import uuid
 from datetime import datetime
 from django.contrib.auth.decorators import login_required
@@ -50,7 +51,7 @@ def login_restaurant(request):
             
             if user is None:
                  messages.error(request, "Invalid password")
-                 return redirect('/login-resatuarant')
+                 return redirect('/login-restaurant')
             else :
                 if Restaurant.objects.filter(user=user):
                     messages.success(request, "Logged in Successfully")
@@ -78,7 +79,7 @@ def login_rider(request):
                 if Delivery_Agent.objects.filter(user=user):
                     messages.success(request, "Logged in Successfully")
                     login(request,user)
-                    return redirect("/register-rider/")
+                    return redirect("/rider-home/")
                 else:
                     messages.error(request, "User not registered as rider")
         else:
@@ -246,14 +247,32 @@ def logout_rider(request):
     logout(request)
     return redirect('/login-rider/')
 
+# ***************RESTAURANT****************
 @login_required(login_url='/login-restaurant/')
 def restaurant_home(request):
     if request.user is not None:
         restaurant=Restaurant.objects.get(user=request.user)
+        order_received=Order.objects.filter(rest_id=restaurant.GSTIN_num,status_of_delivery="ORDERED")
         context={
-            "restaurant":restaurant
+            "restaurant":restaurant,
+            "order_received":order_received,
         }
         return render(request, 'restaurant/RestHomepage.html',context)
+    else:
+        return HttpResponse("Error Occured. Please try again.")
+    
+@login_required(login_url='/login-restaurant/')
+def restaurant_order_history(request):
+    if request.user is not None:
+        restaurant=Restaurant.objects.get(user=request.user)
+        order_received=Order.objects.filter(rest_id=restaurant.GSTIN_num,status_of_delivery="DELIVERED")
+        payment = Payment.objects.filter(order_id__in=order_received.values_list('order_id', flat=True))
+        context={
+            "restaurant":restaurant,
+            "order_received":order_received,
+            "payment":payment,
+        }
+        return render(request, 'restaurant/past-orders.html',context)
     else:
         return HttpResponse("Error Occured. Please try again.")
      
@@ -430,7 +449,10 @@ def customer_home(request):
             rest_all=Restaurant.objects.all()
             all_dishes=Menu.objects.all()
             query1=rest_all.filter(
-                Q(restaurant_name__icontains=search)
+                Q(restaurant_name__icontains=search) |
+                Q(street_address__icontains=search)|
+                Q(city__icontains=search)|
+                Q(state__icontains=search)
             )
             query2=all_dishes.filter(
                 Q(name_of_dish__icontains=search)|
@@ -607,3 +629,98 @@ def customer_view_nonveg(request,restId):
         "menu":menu
     }
     return render(request,'customers/menu-page.html',context)
+
+
+# delivery agent
+@login_required(login_url='/login-rider/')
+def rider_home(request):
+    if request.user is not None:
+        rider=Delivery_Agent.objects.get(user=request.user)
+        order_received=Order.objects.filter(rider_id=rider.lisence_num,status_of_delivery="ORDERED")
+        context={
+            "rider":rider,
+            "order_received":order_received,
+        }
+        return render(request, 'rider/rider-home.html',context)
+    else:
+        return HttpResponse("Error Occured. Please try again.")
+    
+@login_required(login_url='/login-rider/')
+def rider_order_delivered(request,order_id):
+    if request.user is not None:
+        rider=Delivery_Agent.objects.get(user=request.user)
+        order_delivered=Order.objects.get(order_id=order_id)
+        order_delivered.status_of_delivery="DELIVERED"
+        order_delivered.save()
+        return redirect('/rider-home/')
+    else:
+        return HttpResponse("Error Occured. Please try again.")
+    
+@login_required(login_url='/login-rider/')
+def list_delivered_orders(request):
+    if request.user is not None:
+        rider=Delivery_Agent.objects.get(user=request.user)
+        order_delivered=Order.objects.filter(rider_id=rider.lisence_num,status_of_delivery="DELIVERED")
+        context={
+            "rider":rider,
+            "order_received":order_delivered,
+        }
+        return render(request, 'rider/rider-list-delivered.html',context)
+    else:
+        return HttpResponse("Error Occured. Please try again.")
+    
+@login_required(login_url='/login-rider/')                 
+def rider_profile(request):
+    if request.user is not None:
+        rider=Delivery_Agent.objects.get(user=request.user)
+        context={
+            "rider":rider,
+        }
+        return render(request,'rider/rider-profile.html',context)
+    else:
+        return HttpResponse("Error Occured. Please try again.") 
+
+@login_required(login_url='/login-rider/')                     
+def rider_change_password(request):
+    if request.user is not None:
+        user=User.objects.get(email=request.user)
+        if request.method=="POST":
+            new=request.POST.get("new")
+            confirm=request.POST.get('confirm')
+            if new ==confirm:
+                user.set_password(new)
+                user.save()
+                return redirect('/login-rider/')
+            else:
+                messages.error(request, "Password do not match. Try again")
+                return redirect('/rider-change-password/')
+        return render(request,'rider/rider-change-password.html')
+    else:
+        return HttpResponse("Error Occured.")
+    
+@login_required(login_url='/login-rider/')                     
+def rider_edit_profile(request):
+    if request.user is not None:
+        rider=Delivery_Agent.objects.get(user=request.user)
+        user=User.objects.get(email=request.user)
+        if request.method=="POST":
+            if request.POST.get('email'):
+                user.email=request.POST.get('email')
+                user.save()
+            if request.POST.get('phone'):
+                user.phone_number=request.POST.get('phone')
+                user.save()
+            if request.POST.get('name'):
+                rider.rider_name=request.POST.get('name')
+            if request.POST.get('dob'):
+                rider.dob=request.POST.get('dob')
+            if request.POST.get('license'):
+                rider.lisence_num=request.POST.get('license')
+            if request.POST.get('area'):
+                rider.area_of_work=request.POST.get('area')
+            rider.save()
+            messages.success(request, "Changes made successfully")
+            return redirect('/rider-profile/')
+        return render(request,'rider/rider-edit-profile.html')
+    else:
+        return HttpResponse("Error Occured.")

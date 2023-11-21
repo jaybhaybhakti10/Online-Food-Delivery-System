@@ -1,14 +1,9 @@
-{% extends 'navbar/navbar-rest.html' %}
-{% block title %}restaurant.restaurant_name{% endblock title %}
+{% extends 'navbar/navbar-rider.html' %}
+{% block title %}rider.rider_name{% endblock title %}
 {% block Home %}
-{% url 'rest_home'%}
+{% url 'rider_home'%}
 {% endblock  %}
-{% block OrderHis %}
-{%url 'order_history'%}
-{% endblock  %}
-{% block Menu %}
-{%url 'display_menu'%}
-{% endblock  %}
+
 
 
 {% block  content %}
@@ -19,7 +14,7 @@
     <div class="album py-5">
         <div class="container-fluid">
     <div class="conatiner m-5">
-        <h1> Order Received : </h1>
+        <h1> Order Delivered : </h1>
        <hr>
     </div>
           <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-5">
@@ -48,11 +43,20 @@
               <span>Total Amount </span>
               <strong>₹{{order.total_amount}}</strong>
             </li>
+            <li class="list-group-item d-flex justify-content-between">
+              <span>Customer Name </span>
+              <p>{{order.cust_id.customer_name}}</p>
+            </li>
+            <li class="list-group-item d-flex ">
+              <span>Address of Delivery </span>
+              <p class="mr-0">{{order.address_of_delivery.flat_no}} {{order.address_of_delivery.street_address}} {{order.address_of_delivery.city}} {{order.address_of_delivery.state}} {{order.address_of_delivery.pincode}}</p>
+            </li>
+            <li class="list-group-item d-flex justify-content-between">
+              <span>Contact Info of Receiver </span>
+              <p>{{order.cust_id.user.phone_number}}</p>
+            </li>
           </ul>
-          <div>
-            <p><strong>Rider Assigned :</strong> {{order.rider_id.rider_name}}</p>
-            <p><strong>Rider contact :</strong> {{order.rider_id.user.phone_number}}</p>
-        </div>
+          
     </div>
     </div>
     </div>

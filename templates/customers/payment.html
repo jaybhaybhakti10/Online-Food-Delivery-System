@@ -1,0 +1,80 @@
+{% extends 'navbar/navbar-users.html' %}
+{% load static %}
+{% block title %}Customer | Menu{% endblock title %}
+{% block Home %}
+{% url 'cust_home'%}
+{% endblock  %}
+{% block rateOrder %}
+{% endblock  %}
+{% block OrderHis %}
+{%url 'view_order'%}
+{% endblock  %}
+
+
+{% block content%}
+<div class="container" style="font-size:30px;">
+    <main>
+      <div class="py-5 text-center">
+        <h2>Order Payment Details</h2>
+      </div>
+      <div class="py-5 text-center">
+        <h5>Total Amount : {{order.total_amount}}</h5>
+      </div>
+<hr class="m-5">
+      <div class="col-md-7 col-lg-8">
+        
+        
+        {% if request.resolver_match.kwargs.method == "credit" or request.resolver_match.kwargs.method == "debit" %}
+          <form class="needs-validation" novalidate="" method="POST">
+            {% csrf_token %}
+          <div class="col-md-6">
+            <label for="cc-name" class="form-label">Name on card</label>
+            <input type="text" class="form-control" id="cc-name" placeholder="" required="" fdprocessedid="528mzs" name="name">
+            <small class="text-body-secondary">Full name as displayed on card</small>
+            <div class="invalid-feedback">
+              Name on card is required
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <label for="cc-number" class="form-label">Card Number</label>
+            <input type="text" class="form-control" id="cc-number" placeholder="" required="" fdprocessedid="wxwlxs" name="number">
+            <div class="invalid-feedback">
+              Credit card number is required
+            </div>
+          </div>
+
+          <div class="col-md-3">
+            <label for="cc-expiration" class="form-label">Valid Through</label>
+            <input type="text" class="form-control" id="cc-expiration" placeholder="" required="" fdprocessedid="v77y8w" name="exp">
+            <div class="invalid-feedback">
+              Expiration date required
+            </div>
+          </div>
+
+          <div class="col-md-3">
+            <label for="cc-cvv" class="form-label">CVV</label>
+            <input type="text" class="form-control" id="cc-cvv" placeholder="" required="" fdprocessedid="abjhq" name="cvv">
+            <div class="invalid-feedback">
+              Security code required
+            </div>
+          </div>
+          <hr class="my-4">
+  
+            <button class="w-100 btn btn-primary btn-lg m-3" type="submit" fdprocessedid="n8ahld">Pay</button>
+          </form>
+          {%else %}
+          <div class="py-5 text-center">
+            <h5>Cash On Delivery Has been Selected.</h5>
+          </div>
+          <div class="col-sm-6">
+            <div class="text-sm-end mt-2 mt-sm-0">
+                <a href="{% url 'view_order'%}" class="btn btn-success">
+                    <i class="mdi mdi-cart-outline me-1"></i> View Order </a>
+            </div>
+          {%endif%}
+          
+        </div>
+      {%endblock%}
+
+  

@@ -1,0 +1,124 @@
+{% extends 'navbar/navbar-users.html' %}
+{% load static %}
+{% block title %}Customer | Orders{% endblock title %}
+{% block Home %}
+{% url 'cust_home'%}
+{% endblock  %}
+{% block rateOrder %}
+{% endblock  %}
+{% block OrderHis %}
+{%url 'view_order'%}
+{% endblock  %}
+
+
+{% block content%}
+
+{%if current_order%}
+<section >
+    <div class="album py-5">
+        <div class="container-fluid">
+    <div class="conatiner m-5">
+        <h1> Order Placed</h1>
+       <hr>
+    </div>
+          <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-5">
+         {%for order in current_order%}
+            <div class="col-8 m-2 " style="width: 800px;
+            height: max-content;">
+              <div class="card shadow-sm px-3 py-3">
+                <h3>Order Id : {{order.order_id}}</h3>
+                <hr>
+
+                <div class="card-body" style="width: 100%;
+                height: 100%;">
+                   
+                
+          <ul class="list-group mb-3">
+            <li class="list-group-item justify-content-between lh-sm"><h6>Summary of Order</h6></li>
+            {%for item in current_items%}
+            <li class="list-group-item justify-content-between lh-sm">
+              <div>
+                <h6 class="my-0">{{item.item.name_of_dish}}</h6>
+                <small class="text-body-secondary">Quantity : {{item.item_count}}</small>
+              </div>
+            </li>
+            {%endfor%}
+            <li class="list-group-item d-flex justify-content-between">
+              <span>Total Amount </span>
+              <strong>₹{{order.total_amount}}</strong>
+            </li>
+          </ul>
+          <div>
+            <p><strong> Status :</strong> Out for Delivery </p>
+            <p><strong>Rider Name :</strong> {{order.rider_id.rider_name}}</p>
+            <p><strong>Rider contact :</strong> {{order.rider_id.user.phone_number}}</p>
+          {%endfor%}
+           
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+{%endif%}
+{%if past_orders%}
+<section >
+    <div class="album py-">
+        <div class="container-fluid-8 m-5">
+    <div class="conatiner m-5">
+        <h1> Order History</h1>
+       <hr>
+    </div>
+          <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 g-5">
+            {%for order in past_orders%}
+            <div class="col-md-4 m-2 " style="width: 700px;
+            height: max-content;">
+              <div class="card shadow-sm px-3 py-3">
+                <h3>Order Id : {{order.order_id}}</h3>
+                <hr>
+
+                <div class="card-body" style="width: 100%;
+                height: 100%;">
+            
+                
+          <ul class="list-group mb-3">
+            <li class="list-group-item justify-content-between lh-sm"><h6>Summary of Order</h6></li>
+            {%for cart in order.cart_item.all%}
+            
+            {% comment %} {%for item in cart%}  {% endcomment %}
+            <li class="list-group-item justify-content-between lh-sm">
+              <div>
+                <h6 class="my-0">{{cart.item}}</h6>
+                <small class="text-body-secondary">Quantity : {{cart.item_count}}</small>
+              </div>
+            </li>
+            {% comment %} {%endfor%} {% endcomment %}
+            {%endfor%}
+            <li class="list-group-item d-flex justify-content-between">
+              <span>Total Amount </span>
+              <strong>₹{{order.total_amount}}</strong>
+            </li>
+          </ul>
+          <div>
+            <p><strong> Status :</strong> Delivered </p>
+            <p><strong>Rider Name :</strong> {{order.rider_id.rider_name}}</p>
+            <p><strong>Rider contact :</strong> {{order.rider_id.user.phone_number}}</p>
+          </div>
+        </div>
+        </div>
+        </div>
+          {%endfor%}
+           
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    {%endif%}
+
+{%if not current_order and not past_orders%}
+<div>
+    <h2> You have not ordered anything yet</h2>
+</div>
+{%endif%}
+{%endblock%}
+

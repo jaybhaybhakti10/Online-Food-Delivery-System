@@ -1,5 +1,5 @@
 {% extends 'navbar/navbar-rest.html' %}
-{% block title %}restaurant.restaurant_name{% endblock title %}
+{% block title %}restaurant.restaurant_name | Order History{% endblock title %}
 {% block Home %}
 {% url 'rest_home'%}
 {% endblock  %}
@@ -13,13 +13,12 @@
 
 {% block  content %}
 
-
 <section >
     {%if order_received%}
     <div class="album py-5">
         <div class="container-fluid">
     <div class="conatiner m-5">
-        <h1> Order Received : </h1>
+        <h1> Order History : </h1>
        <hr>
     </div>
           <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-5">
@@ -33,7 +32,6 @@
                 <div class="card-body" style="width: 100%;
                 height: 100%;">
                    
-                
           <ul class="list-group mb-3">
             <li class="list-group-item justify-content-between lh-sm"><h6>Order Details</h6></li>
             {%for cart in order.cart_item.all%}
@@ -47,6 +45,20 @@
             <li class="list-group-item d-flex justify-content-between">
               <span>Total Amount </span>
               <strong>₹{{order.total_amount}}</strong>
+            </li>
+            <li class="list-group-item d-flex justify-content-between">
+                {%for pay in payment%}
+              {%if pay.order_id|stringformat:"s" == order.order_id%}
+              <ul>
+                <li>
+              <p >Payment Method : {{pay.payment_method}}</p></li>
+              <li >
+              <p >Payment Date : {{pay.payment_date}}</p></li>
+              <li >
+              <p >Payment Time : {{pay.payment_time}}</p></li>
+              </ul>
+              {%endif%}
+              {%endfor%}
             </li>
           </ul>
           <div>

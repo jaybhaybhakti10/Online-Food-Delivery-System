@@ -24,6 +24,7 @@ urlpatterns=[
     path('restaurant-change-password/',restaurant_change_password,name="rest_change_password"),
     path('edit-dish/<str:dishId>/',restaurant_edit_dish,name="edit_dish"),
     path('delete-dish/<str:dishId>/',restaurant_delete_dish,name="delete_dish"),
+    path('order-history/',restaurant_order_history,name="order_history"),
     # customer urls
     path('user-home/',customer_home,name="cust_home"),
     path('user-profile/',customer_profile,name="cust_profile"),
@@ -35,6 +36,14 @@ urlpatterns=[
     path('user-view-menu/<str:restId>/',customer_view_menu,name="cust_view_menu"),
     path('user-view-veg/<str:restId>/',customer_view_veg,name="cust_view_veg"),
     path('user-view-nonveg/<str:restId>/',customer_view_nonveg,name="cust_view_non_veg"),
+    #rider urls
+    path('rider-home/',rider_home,name="rider_home"),
+    path('order-delivered/<str:order_id>/',rider_order_delivered,name="order_delivered"),
+    path('order-delivered/',list_delivered_orders,name="list_delivered_orders"),
+    path('rider-profile/',rider_profile,name="rider_profile"),
+    path('rider-change-password/',rider_change_password,name="rider_change_password"),
+    path('rider-edit-profile/',rider_edit_profile,name="rider_edit_profile"),
+
     
 ]
 
