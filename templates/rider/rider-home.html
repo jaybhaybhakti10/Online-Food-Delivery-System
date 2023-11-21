@@ -55,6 +55,14 @@
               <span>Contact Info of Receiver </span>
               <p>{{order.cust_id.user.phone_number}}</p>
             </li>
+            <li class="list-group-item d-flex justify-content-between">
+              <h6>Restaurant Name </h6>
+              <p>{{order.rest_id}}</p>
+            </li>
+            <li class="list-group-item d-flex justify-content-between">
+              <h6>Pickup Address </h6>
+              <p>{{order.rest_id.flat_no}} {{order.rest_id.street_address}} {{order.arest_id.city}} {{order.rest_id.state}} {{order.rest_id.pincode}}</p>
+            </li>
           </ul>
           <div class="text-center">
             <p>

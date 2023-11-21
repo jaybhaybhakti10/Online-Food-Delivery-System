@@ -49,11 +49,19 @@
             </li>
             <li class="list-group-item d-flex ">
               <span>Address of Delivery </span>
-              <p class="mr-0">{{order.address_of_delivery.flat_no}} {{order.address_of_delivery.street_address}} {{order.address_of_delivery.city}} {{order.address_of_delivery.state}} {{order.address_of_delivery.pincode}}</p>
+              <p class="mr-0">{{order.address_of_delivery.flat_no}} {{order.address_of_delivery.street_address}} {{order.address_of_delivery.city}} {{order.address_of_delivery.state}} {{order.address_of_delivery.pin_code}}</p>
             </li>
             <li class="list-group-item d-flex justify-content-between">
               <span>Contact Info of Receiver </span>
               <p>{{order.cust_id.user.phone_number}}</p>
+            </li>
+            <li class="list-group-item d-flex justify-content-between">
+              <h6>Restaurant Name </h6>
+              <p>{{order.rest_id}}</p>
+            </li>
+            <li class="list-group-item d-flex justify-content-between">
+              <h6>Pickup Address </h6>
+              <p>{{order.rest_id.house}} {{order.rest_id.street_address}} {{order.arest_id.city}} {{order.rest_id.state}} {{order.rest_id.pin_code}}</p>
             </li>
           </ul>
           

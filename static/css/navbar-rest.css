@@ -24,11 +24,14 @@ html, body {
     height: 100%;
     margin: 0;
 }
+
 body {
-    background-image: url(/static/images/four.avif);   
+    background-image: url('/static/images/four.avif');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    height:100%;
-    color:whitesmoke
+    background-attachment: fixed;
+    background-color: black !important;
+    color: whitesmoke;
+    height: 100vh; /* Set height to 100% of the viewport height */
 }

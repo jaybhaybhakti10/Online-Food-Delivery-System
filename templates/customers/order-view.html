@@ -35,6 +35,10 @@
                 
           <ul class="list-group mb-3">
             <li class="list-group-item justify-content-between lh-sm"><h6>Summary of Order</h6></li>
+            <li class="list-group-item d-flex justify-content-between">
+              <h6>Restaurant Name </h6>
+              <p>{{order.rest_id}}</p>
+            </li>
             {%for item in current_items%}
             <li class="list-group-item justify-content-between lh-sm">
               <div>
@@ -73,7 +77,7 @@
             <div class="col-md-4 m-2 " style="width: 700px;
             height: max-content;">
               <div class="card shadow-sm px-3 py-3">
-                <h3>Order Id : {{order.order_id}}</h3>
+                <h6>Order Id : {{order.order_id}}</h6>
                 <hr>
 
                 <div class="card-body" style="width: 100%;
@@ -81,7 +85,12 @@
             
                 
           <ul class="list-group mb-3">
+            <li class="list-group-item d-flex justify-content-between">
+              <h3>Restaurant Name </h3>
+              <p>{{order.rest_id}}</p>
+            </li>
             <li class="list-group-item justify-content-between lh-sm"><h6>Summary of Order</h6></li>
+
             {%for cart in order.cart_item.all%}
             
             {% comment %} {%for item in cart%}  {% endcomment %}
