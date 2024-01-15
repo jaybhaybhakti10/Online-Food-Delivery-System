@@ -1,0 +1,1 @@
+This is the Database Management System project done by me and my partner . This is a restaurant management system and it contains users, restaurants and delivery partners as well. Django framework is used here.
